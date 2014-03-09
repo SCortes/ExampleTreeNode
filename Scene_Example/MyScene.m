@@ -58,45 +58,6 @@
     return self;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    /* Called when a touch begins */
-    
-    for (UITouch *touch in touches) {
-        SKNode *primerNodo = [self nodeAtPoint:[touch locationInNode:self]];
-        
-        NSArray *lista = [self nodesAtPoint:[touch locationInNode:self]];
-        if(lista.count>=3 && [lista containsObject:conjunto]){
-            SKNode * nodo1 = lista[1];
-            SKNode * nodo2 = lista[2];
-            if([nodo1.name isEqualToString:@"sonic"]){
-                seleccionado = lista[1];
-            }
-            else if([nodo2.name isEqualToString:@"sonic"]){
-                
-                seleccionado = lista[2];
-                [seleccionado removeFromParent];
-                seleccionado.zPosition = 0;
-                seleccionado.position = [self convertPoint:seleccionado.position fromNode:conjunto];
-                [self addChild:seleccionado];
-            }
-            
-        }
-        else{
-            if ([primerNodo.parent.name isEqualToString:@"conjunto"]) {
-                
-                seleccionado = primerNodo.parent;
-            
-            }else{
-                
-                seleccionado = [self nodeAtPoint:[touch locationInNode:self]];
-            }
-        }
-        
-        
-        
-        
-    }
-}
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
@@ -129,6 +90,48 @@ numberOfFrames WithCoordenadas: (NSDictionary *)coordenadasSpriteSheet
     return frames;
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    /* Called when a touch begins */
+    
+    for (UITouch *touch in touches) {
+        SKNode *primerNodo = [self nodeAtPoint:[touch locationInNode:self]];
+        
+        NSArray *lista = [self nodesAtPoint:[touch locationInNode:self]];
+        if(lista.count>=3 && [lista containsObject:conjunto]){
+            SKNode * nodo1 = lista[1];
+            SKNode * nodo2 = lista[2];
+            if([nodo1.name isEqualToString:@"sonic"]){
+                seleccionado = lista[1];
+            }
+            else if([nodo2.name isEqualToString:@"sonic"]){
+                
+                seleccionado = lista[2];
+                [seleccionado removeFromParent];
+                seleccionado.zPosition = 0;
+                seleccionado.position = [self convertPoint:seleccionado.position fromNode:conjunto];
+                [self addChild:seleccionado];
+            }
+            
+        }
+        else{
+            if ([primerNodo.parent.name isEqualToString:@"conjunto"]) {
+                
+                seleccionado = primerNodo.parent;
+                
+            }else{
+                
+                seleccionado = [self nodeAtPoint:[touch locationInNode:self]];
+            }
+        }
+        
+        
+        
+        
+    }
+}
+
+#pragma mark Methods for diferents events
+
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     for(UITouch *touch in touches){
         seleccionado.position = [touch locationInNode:self];
@@ -141,7 +144,6 @@ numberOfFrames WithCoordenadas: (NSDictionary *)coordenadasSpriteSheet
             NSArray *lista = [self nodesAtPoint:[touch locationInNode:self ]];
             if([lista containsObject:conjunto]){
                 [seleccionado removeFromParent];
-                seleccionado.zPosition = 0;
                 seleccionado.position = [self convertPoint:seleccionado.position toNode:conjunto];
                 [conjunto addChild:seleccionado];
             
